@@ -25,22 +25,26 @@ namespace Employee_Management_System.Repository
 
         public bool Create(LeaveType entity)// LeaveType entity, it's the info that comes from the user.
         {
-            throw new NotImplementedException();
+            _db.LeaveTypes.Add(entity);
+
+            return Save();
         }
 
         public bool Delete(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveTypes.Remove(entity);
+
+            return Save();
         }
 
         public ICollection<LeaveType> FindAll()
         {
-            throw new NotImplementedException();
+            return (_db.LeaveTypes.ToList());
         }
 
         public LeaveType FindById(int id)
         {
-            throw new NotImplementedException();
+            return (_db.LeaveTypes.Find(id));
         }
 
         public ICollection<LeaveType> GetEmployeesByLeaveType(int id)
@@ -50,12 +54,16 @@ namespace Employee_Management_System.Repository
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            // If something is created, deleted or updated, the value of _db.SaveChanges() will be major than 0.
+            // If not return false.
+            return _db.SaveChanges() > 0;
         }
 
         public bool Update(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveTypes.Update(entity);
+
+            return Save();
         }
     }
 }
