@@ -1,5 +1,7 @@
+using AutoMapper;
 using Employee_Management_System.Contracts;
 using Employee_Management_System.Data;
+using Employee_Management_System.Mappings;
 using Employee_Management_System.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +39,9 @@ namespace Employee_Management_System
             services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
+
+            // Add mapper:
+            services.AddAutoMapper(typeof(Maps));// Maps is the name of the class which is inside the Mappings folder.
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

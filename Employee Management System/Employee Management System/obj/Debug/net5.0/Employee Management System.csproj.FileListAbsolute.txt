@@ -392,3 +392,5 @@ C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System
 C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\ref\Employee Management System.dll
 C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\Employee Management System.pdb
 C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\Employee Management System.genruntimeconfig.cache
+C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
