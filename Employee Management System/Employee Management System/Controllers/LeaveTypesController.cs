@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Employee_Management_System.Contracts;
+using Employee_Management_System.Data;
+using Employee_Management_System.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,7 +25,10 @@ namespace Employee_Management_System.Controllers
         // GET: LeaveTypesController
         public ActionResult Index()
         {
-            return View();
+            var leavetypes = _repo.FindAll().ToList();// FindAll is definded inside IRepositoryBase.
+            var model = _mapper.Map<List<LeaveType>, List<DetailsLeaveTypeVM>>(leavetypes);// Returns a List.
+
+            return View(model);
         }
 
         // GET: LeaveTypesController/Details/5
