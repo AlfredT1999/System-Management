@@ -14,6 +14,10 @@ namespace Employee_Management_System.Contracts
 
         // Read:
         ICollection<T> FindAll();
+
+        // Add another declaration that find if the id passed exists.
+        bool isExists(int id);
+
         T FindById(int id);
 
         // Update:

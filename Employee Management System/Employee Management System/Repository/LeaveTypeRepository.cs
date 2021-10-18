@@ -52,6 +52,12 @@ namespace Employee_Management_System.Repository
             throw new NotImplementedException();
         }
 
+        public bool isExists(int id)
+        {
+            var exists = _db.LeaveTypes.Any(q => q.Id == id);// The q => is a lambda expression.
+            return exists;
+        }
+
         public bool Save()
         {
             // If something is created, deleted or updated, the value of _db.SaveChanges() will be major than 0.
