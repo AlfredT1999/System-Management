@@ -442,3 +442,4 @@ C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System
 C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveTypes\Create.cshtml.g.cs
 C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveTypes\Edit.cshtml.g.cs
 C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveTypes\Details.cshtml.g.cs
+C:\Users\Alfredo\Documents\Employee-Management-System\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveTypes\Delete.cshtml.g.cs
