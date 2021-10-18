@@ -26,7 +26,7 @@ namespace Employee_Management_System.Controllers
         public ActionResult Index()
         {
             var leavetypes = _repo.FindAll().ToList();// FindAll is definded inside IRepositoryBase.
-            var model = _mapper.Map<List<LeaveType>, List<DetailsLeaveTypeVM>>(leavetypes);// Returns a List.
+            var model = _mapper.Map<List<LeaveType>, List<LeaveTypeVM>>(leavetypes);// Returns a List.
 
             return View(model);
         }
@@ -46,15 +46,31 @@ namespace Employee_Management_System.Controllers
         // POST: LeaveTypesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(LeaveType model)
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var leaveType = _mapper.Map<LeaveType>(model);
+                leaveType.DateCreated = DateTime.Now;
+                var isSuccess = _repo.Create(leaveType);
+
+                if (!isSuccess)
+                {
+                    ModelState.AddModelError("", "Something went wrong...");
+                    return View(model);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Something went wrong...");
+                return View(model);
             }
         }
 
