@@ -47,7 +47,9 @@ namespace Employee_Management_System
 
             // 'options => options.SignIn.RequireConfirmedAccount = true' it's for confirm my email.
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
 
             /* runtime compilation complements build-time compilation, allowing Razor files to be updated if they're 
@@ -56,7 +58,7 @@ namespace Employee_Management_System
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -76,6 +78,9 @@ namespace Employee_Management_System
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // The class is static so we don't need to declare an object for his use:
+            SeedData.Seed(userManager, roleManager);
 
             app.UseEndpoints(endpoints =>
             {

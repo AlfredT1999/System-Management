@@ -131,6 +131,7 @@ namespace Employee_Management_System.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                     */
+                    _userManager.AddToRoleAsync(user, "Employee").Wait();
                     _logger.LogInformation("User created a new account with password.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
