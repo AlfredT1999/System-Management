@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Employee_Management_System.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +47,16 @@ namespace Employee_Management_System.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -62,22 +73,41 @@ namespace Employee_Management_System.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
+        // An async method runs synchronously until it reaches its first await expression,
+        // at which point the method is suspended until the awaited task is complete.
         public async Task OnGetAsync(string returnUrl = null)
         {
+            // The following statement means that for example, if I was in the web app leave types section and I want to
+            // register, so once I did that the page takes me back where I was before.
             ReturnUrl = returnUrl;
+
+            // The following assigment is false, because we need to implement some external authentication
+            // like google auth or so on.
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            // Checks what is true:
+            returnUrl ??= Url.Content("~/");// It's the same as : returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                // The change to Employee it's because the First name and last name are required:
+                var user = new Employee { 
+                    UserName = Input.Email, 
+                    Email = Input.Email,
+                    Firstname = Input.FirstName,
+                    Lastname = Input.LastName 
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
+                    /* These code it's just needed when we want to confirm the email: 
+                     * 
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -100,7 +130,13 @@ namespace Employee_Management_System.Areas.Identity.Pages.Account
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
+                    */
+                    _logger.LogInformation("User created a new account with password.");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return LocalRedirect(returnUrl);
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
