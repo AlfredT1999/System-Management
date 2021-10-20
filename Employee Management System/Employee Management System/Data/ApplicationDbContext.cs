@@ -19,5 +19,6 @@ namespace Employee_Management_System.Data
         public DbSet<LeaveHistory> LeaveHistories { get; set; }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<Employee_Management_System.Models.LeaveTypeVM> DetailsLeaveTypeVM { get; set; }
+        public DbSet<Employee_Management_System.Models.EmployeeVM> EmployeeVM { get; set; }
     }
 }

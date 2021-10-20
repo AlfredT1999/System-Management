@@ -19,9 +19,9 @@ namespace Employee_Management_System.Controllers
         private readonly ILeaveTypeRepository _leaveTypeRepo;
         private readonly ILeaveAllocationRepository _leaveAllocationRepo;
         private readonly IMapper _mapper;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Employee> _userManager;
 
-        public LeaveAllocationController(ILeaveTypeRepository leaveTypeRepo, ILeaveAllocationRepository leaveAllocationRepo, IMapper mapper, UserManager<IdentityUser> userManager)
+        public LeaveAllocationController(ILeaveTypeRepository leaveTypeRepo, ILeaveAllocationRepository leaveAllocationRepo, IMapper mapper, UserManager<Employee> userManager)
         {
             _leaveTypeRepo = leaveTypeRepo;
             _leaveAllocationRepo = leaveAllocationRepo;
@@ -98,6 +98,14 @@ namespace Employee_Management_System.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult ListEmployees()
+        {
+            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
+            var model = _mapper.Map<List<EmployeeVM>>(employees);
+
+            return View(model);
         }
 
         // GET: LeaveAllocationController/Edit/5
