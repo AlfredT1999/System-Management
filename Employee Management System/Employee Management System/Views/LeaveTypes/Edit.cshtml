@@ -13,7 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!-- This is hidden but it needs to stay there because we need the value of the Id when we
-                 configure the POST edit. -->
+         configure the POST edit. -->
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="DateCreated" />
             <div class="form-group">
@@ -22,7 +22,12 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save Changes" class="btn btn-success" /> <a asp-action="Index">   Back to List</a> 
+                <label asp-for="DefaultDays" class="control-label"></label>
+                <input asp-for="DefaultDays" class="form-control" />
+                <span asp-validation-for="DefaultDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-success" /> <a asp-action="Index">   Back to List</a>
             </div>
         </form>
     </div>

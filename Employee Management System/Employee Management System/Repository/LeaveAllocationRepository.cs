@@ -19,6 +19,14 @@ namespace Employee_Management_System.Repository
             _db = db;
         }
 
+        public bool CheckAllocation(int leaveTypeId, string employeeId)
+        {
+            var period = DateTime.Now.Year;
+
+            // The Any function means: There's anything here.
+            return FindAll().Where(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period).Any();
+        }
+
         /* The above code is called dependency injection. */
 
         public bool Create(LeaveAllocation entity)

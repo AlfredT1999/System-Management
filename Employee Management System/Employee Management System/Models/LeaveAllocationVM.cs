@@ -21,4 +21,10 @@ namespace Employee_Management_System.Models
         public IEnumerable<SelectListItem> LeaveTypes { get; set; }
         public int Period { get; set; }
     }
+
+    public class CreateLeaveAllocationVM
+    {
+        public int NumberUpdated { get; set; }
+        public List<LeaveTypeVM> LeaveTypes { get; set; }
+    }
 }
