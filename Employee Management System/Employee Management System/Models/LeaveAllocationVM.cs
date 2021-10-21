@@ -17,8 +17,6 @@ namespace Employee_Management_System.Models
         public string EmployeeId { get; set; }
         public LeaveTypeVM LeaveType { get; set; }
         public int LeaveTypeId { get; set; }
-        public IEnumerable<SelectListItem> Employees { get; set; }
-        public IEnumerable<SelectListItem> LeaveTypes { get; set; }
         public int Period { get; set; }
     }
 
@@ -26,5 +24,12 @@ namespace Employee_Management_System.Models
     {
         public int NumberUpdated { get; set; }
         public List<LeaveTypeVM> LeaveTypes { get; set; }
+    }
+
+    public class ViewAllocationVM
+    {
+        public EmployeeVM Employee { get; set; }
+        public string EmployeeId { get; set; }
+        public List<LeaveAllocationVM> LeaveAllocations { get; set; }
     }
 }

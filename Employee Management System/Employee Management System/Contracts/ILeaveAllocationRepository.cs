@@ -9,5 +9,6 @@ namespace Employee_Management_System.Contracts
     public interface ILeaveAllocationRepository : IRepositoryBase<LeaveAllocation>
     {
         bool CheckAllocation(int leaveTypeId, string employeeId);
+        ICollection<LeaveAllocation> GetLeaveAllocationByEmployee(string id);
     }
 }
