@@ -121,17 +121,38 @@ namespace Employee_Management_System.Controllers
         // GET: LeaveAllocationController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var leaveAllocation = _leaveAllocationRepo.FindById(id);
+            var model = _mapper.Map<EditLeaveAllocationVM>(leaveAllocation);
+
+            return View(model);
         }
 
         // POST: LeaveAllocationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(EditLeaveAllocationVM model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var leaveAllocation = _leaveAllocationRepo.FindById(model.Id);
+                leaveAllocation.NumberOfDays = model.NumberOfDays;
+                var isSuccess = _leaveAllocationRepo.Update(leaveAllocation);
+
+                if (!isSuccess)
+                {
+                    ModelState.AddModelError("", "Something went wrong...");
+                    return View(model);
+                }
+
+                // The method Details accept a parameter string id which is the Id of the current employee.
+                // new { id = model.EmployeeId } This line makes the reference to that id.
+                // In the Edit layout we keep the info of the EmployeeId hidden.
+                return RedirectToAction(nameof(Details), new { id = model.EmployeeId });
             }
             catch
             {

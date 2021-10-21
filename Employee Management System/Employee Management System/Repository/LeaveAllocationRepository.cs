@@ -47,12 +47,12 @@ namespace Employee_Management_System.Repository
         public ICollection<LeaveAllocation> FindAll()
         {
             // Include(q => q.LeaveType) Means that we need to include the info of the table LeaveType
-            return (_db.LeaveAllocations.Include(q => q.LeaveType).ToList());
+            return (_db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.Employee).ToList());
         }
 
         public LeaveAllocation FindById(int id)
         {
-            return (_db.LeaveAllocations.Find(id));
+            return (_db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.Employee).FirstOrDefault(q => q.Id == id));
         }
 
         public ICollection<LeaveAllocation> GetLeaveAllocationByEmployee(string id)

@@ -32,4 +32,13 @@ namespace Employee_Management_System.Models
         public string EmployeeId { get; set; }
         public List<LeaveAllocationVM> LeaveAllocations { get; set; }
     }
+
+    public class EditLeaveAllocationVM
+    {
+        public int Id { get; set; }
+        public string EmployeeId { get; set; }
+        public int NumberOfDays { get; set; }
+        public LeaveTypeVM LeaveType { get; set; }
+        public EmployeeVM Employee { get; set; }
+    }
 }
