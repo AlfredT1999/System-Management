@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Employee_Management_System.Data
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ViewData["Title"] means that it's Razor syntax or c-sharp inside HTML. And what it goes in the tab description
+         is inside of = Views/Home/Index.cshtml or privacy. -->
+    <title>@ViewData["Title"] - Employee Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3"
+             style="background-color: #e3f2fd;">
+            <div class="container">
+                <a class="navbar-brand text-secondary" asp-area="" asp-controller="Home" asp-action="Index">
+                    Employee Management System
+                </a>
+                <button class="navbar-toggler text-secondary" type="button" data-toggle="collapse"
+                        data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <!-- asp-controller="Home", goes inside the folder Controller and search for the name of
+        the file controller which in this case is HomeController.cs
+
+        Once it is found search asp-action="Index" which is a method. -->
+                            <a class="nav-link text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" asp-area="" asp-controller="" asp-action="">Apply For Leave</a>
+                        </li>
+                        <!-- If the user is login and is an administrator then show the following code: -->
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            if (User.IsInRole("Administrator"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDropdown" role="button"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Manage
+                                    </a>
+                                    <div class="dropdown-menu text-secondary" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item text-secondary" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
+                                        <a class="dropdown-item text-secondary" asp-controller="LeaveAllocation" asp-action="Index">Leave Allocations</a>
+                                        <a class="dropdown-item text-secondary" asp-controller="LeaveHistory" asp-action="Index" >Leave Applications</a>
+                                        <a class="dropdown-item text-secondary" asp-controller="LeaveAllocation" asp-action="ListEmployees">Employees</a>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <!-- &copy; Is for the copywrite symbol. -->
+            &copy; @DateTime.Now.Year - Employee Management System - <a class="text-secondary" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <!-- Any additional scripts needs be added at below the last script. -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
