@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace Employee_Management_System.Controllers
     public class LeaveHistoryController : Controller
     {
         private readonly ILeaveHistoryRepository _leaveHistoryRepo;
+        private readonly ILeaveTypeRepository _leaveTypeRepo;
         private readonly IMapper _mapper;
         private readonly UserManager<Employee> _userManager;
 
-        public LeaveHistoryController(ILeaveHistoryRepository leaveHistoryRepo, IMapper mapper, UserManager<Employee> userManager)
+        public LeaveHistoryController(ILeaveHistoryRepository leaveHistoryRepo, ILeaveTypeRepository leaveTypeRepo, IMapper mapper, UserManager<Employee> userManager)
         {
             _leaveHistoryRepo = leaveHistoryRepo;
+            _leaveTypeRepo = leaveTypeRepo;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -54,7 +57,20 @@ namespace Employee_Management_System.Controllers
         // GET: LeaveHistoryController/Create
         public ActionResult Create()
         {
-            return View();
+            var leaveTypes = _leaveTypeRepo.FindAll();
+            var leaveTypeItems = leaveTypes.Select(q => new SelectListItem
+            {
+                Text = q.Name,
+                Value = q.Id.ToString()
+            });
+            var model = new CreateLeaveHistoryVM
+            {
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                LeaveTypes = leaveTypeItems
+            };
+
+            return View(model);
         }
 
         // POST: LeaveHistoryController/Create
