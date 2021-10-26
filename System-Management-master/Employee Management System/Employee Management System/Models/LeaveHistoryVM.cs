@@ -21,6 +21,7 @@ namespace Employee_Management_System.Models
         public DateTime DateRequested { get; set; }
         public DateTime? DateActioned { get; set; }
         public bool? Approved { get; set; }
+        public bool Cancelled { get; set; }
         public EmployeeVM ApprovedBy { get; set; }
         public string ApprovedById { get; set; }
     }
@@ -58,5 +59,11 @@ namespace Employee_Management_System.Models
 
         [Display(Name = "Leave Type")]
         public int LeaveTypeId { get; set; }
+    }
+
+    public class EmployeeLeaveHistoryViewVM
+    {
+        public List<LeaveAllocationVM> LeaveAllocations { get; set; }
+        public List<LeaveHistoryVM> LeaveHistories { get; set; }
     }
 }

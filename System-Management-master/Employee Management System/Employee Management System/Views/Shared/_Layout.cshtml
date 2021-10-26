@@ -35,32 +35,36 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <!-- asp-controller="Home", goes inside the folder Controller and search for the name of
-                            the file controller which in this case is HomeController.cs
+        the file controller which in this case is HomeController.cs
 
-                            Once it is found search asp-action="Index" which is a method. -->
+        Once it is found search asp-action="Index" which is a method. -->
                             <a class="nav-link text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-secondary" asp-area="" asp-controller="LeaveHistory" asp-action="Create">Apply For Leave</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" asp-area="" asp-controller="LeaveHistory" asp-action="MyLeave">My Leave</a>
                         </li>
                         <!-- If the user is login and is an administrator then show the following code: -->
                         @if (SignInManager.IsSignedIn(User))
                         {
                             if (User.IsInRole("Administrator"))
                             {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Manage
-                </a>
-                <div class="dropdown-menu text-secondary" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item text-secondary" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
-                    <a class="dropdown-item text-secondary" asp-controller="LeaveAllocation" asp-action="Index">Leave Allocations</a>
-                    <a class="dropdown-item text-secondary" asp-controller="LeaveHistory" asp-action="Index">Leave Applications</a>
-                    <a class="dropdown-item text-secondary" asp-controller="LeaveAllocation" asp-action="ListEmployees">Employees</a>
-                </div>
-            </li>}
-                        }
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage
+                        </a>
+                        <div class="dropdown-menu text-secondary" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-secondary" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
+                            <a class="dropdown-item text-secondary" asp-controller="LeaveAllocation" asp-action="Index">Leave Allocations</a>
+                            <a class="dropdown-item text-secondary" asp-controller="LeaveHistory" asp-action="Index">Leave Requests</a>
+                            <a class="dropdown-item text-secondary" asp-controller="LeaveAllocation" asp-action="ListEmployees">Employees</a>
+                        </div>
+                    </li>
+}
+            }
 
                     </ul>
                     <partial name="_LoginPartial" />

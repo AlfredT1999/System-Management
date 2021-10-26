@@ -54,6 +54,11 @@ namespace Employee_Management_System.Repository
                 .FirstOrDefault(q => q.Id == id));
         }
 
+        public ICollection<LeaveHistory> GetLeaveHistoriesByEmployee(string employeeId)
+        {
+            return FindAll().Where(q => q.RequestingEmployeeId == employeeId).ToList();
+        }
+
         public bool isExists(int id)
         {
             var exists = _db.LeaveHistories.Any(q => q.Id == id);// The q => is a lambda expression.

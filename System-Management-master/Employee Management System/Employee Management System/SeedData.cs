@@ -44,8 +44,7 @@ namespace Employee_Management_System
                 {
                     Name = "Administrator"
                 };
-
-                var result = roleManager.CreateAsync(role).Result;
+                _ = roleManager.CreateAsync(role).Result;
             }
 
             if (!roleManager.RoleExistsAsync("Employee").Result)
@@ -54,8 +53,7 @@ namespace Employee_Management_System
                 {
                     Name = "Employee"
                 };
-
-                var result = roleManager.CreateAsync(role).Result;
+                _ = roleManager.CreateAsync(role).Result;
             }
         }
     }

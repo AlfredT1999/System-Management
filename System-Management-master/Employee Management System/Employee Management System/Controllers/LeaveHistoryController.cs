@@ -70,7 +70,7 @@ namespace Employee_Management_System.Controllers
                 var allocation = _leaveAllocRepo.GetLeaveAllocationByEmployeeAndType(employeeId, leaveTypeId);
                 int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
 
-                allocation.NumberOfDays = allocation.NumberOfDays - daysRequested;
+                allocation.NumberOfDays -= daysRequested;
 
                 leaveRequest.Approved = true;
                 leaveRequest.ApprovedById = user.Id;
@@ -107,6 +107,24 @@ namespace Employee_Management_System.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+        }
+
+        public ActionResult MyLeave()
+        {
+            var employee = _userManager.GetUserAsync(User).Result;
+            var employeeId = employee.Id;
+            var employeeAllocations = _leaveAllocRepo.GetLeaveAllocationByEmployee(employeeId);
+            var employeeRequests = _leaveHistoryRepo.GetLeaveHistoriesByEmployee(employeeId);
+            var employeeAllocationModel = _mapper.Map<List<LeaveAllocationVM>>(employeeAllocations);
+            var employeeRequestsModel = _mapper.Map<List<LeaveHistoryVM>>(employeeRequests);
+
+            var model = new EmployeeLeaveHistoryViewVM
+            {
+                LeaveAllocations = employeeAllocationModel,
+                LeaveHistories = employeeRequestsModel
+            };
+
+            return View(model);
         }
 
         // GET: LeaveHistoryController/Create
@@ -185,7 +203,7 @@ namespace Employee_Management_System.Controllers
                     return View(model);
                 }
 
-                return RedirectToAction(nameof(Index), "Home");
+                return RedirectToAction("MyLeave");
             }
             catch(Exception ex)
             {
@@ -194,8 +212,17 @@ namespace Employee_Management_System.Controllers
             }
         }
 
+        public ActionResult CancelRequest(int id)
+        {
+            var leaveHistory = _leaveHistoryRepo.FindById(id);
+            leaveHistory.Cancelled = true;
+            _leaveHistoryRepo.Update(leaveHistory);
+
+            return RedirectToAction("MyLeave");
+        }
+
         // GET: LeaveHistoryController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
             return View();
         }
@@ -216,7 +243,7 @@ namespace Employee_Management_System.Controllers
         }
 
         // GET: LeaveHistoryController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete()
         {
             return View();
         }
@@ -224,7 +251,7 @@ namespace Employee_Management_System.Controllers
         // POST: LeaveHistoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, LeaveHistoryVM model)
         {
             try
             {

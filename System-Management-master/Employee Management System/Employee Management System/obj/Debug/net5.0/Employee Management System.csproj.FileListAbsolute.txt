@@ -977,3 +977,4 @@ C:\Users\Alfredo\Documents\EmployeeManagementSystem\System-Management-master\Emp
 C:\Users\Alfredo\Documents\EmployeeManagementSystem\System-Management-master\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveHistory\Index.cshtml.g.cs
 C:\Users\Alfredo\Documents\EmployeeManagementSystem\System-Management-master\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveHistory\Create.cshtml.g.cs
 C:\Users\Alfredo\Documents\EmployeeManagementSystem\System-Management-master\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveHistory\Details.cshtml.g.cs
+C:\Users\Alfredo\Documents\EmployeeManagementSystem\System-Management-master\Employee Management System\Employee Management System\obj\Debug\net5.0\Razor\Views\LeaveHistory\MyLeave.cshtml.g.cs

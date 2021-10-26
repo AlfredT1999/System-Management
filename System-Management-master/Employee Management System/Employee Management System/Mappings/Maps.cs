@@ -19,6 +19,7 @@ namespace Employee_Management_System.Mappings
             CreateMap<LeaveHistory, LeaveHistoryVM>().ReverseMap();
             CreateMap<LeaveHistory, AdminLeaveHistoryViewVM>().ReverseMap();
             CreateMap<LeaveHistory, CreateLeaveHistoryVM>().ReverseMap();
+            CreateMap<LeaveHistory, EmployeeLeaveHistoryViewVM>().ReverseMap();
             CreateMap<Employee, EmployeeVM>().ReverseMap();
         }
     }
