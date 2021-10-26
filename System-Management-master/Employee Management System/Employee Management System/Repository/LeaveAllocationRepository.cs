@@ -47,7 +47,9 @@ namespace Employee_Management_System.Repository
         public ICollection<LeaveAllocation> FindAll()
         {
             // Include(q => q.LeaveType) Means that we need to include the info of the table LeaveType
-            return (_db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.Employee).ToList());
+            var result = _db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.Employee).ToList();
+
+            return result;
         }
 
         public LeaveAllocation FindById(int id)
@@ -60,6 +62,14 @@ namespace Employee_Management_System.Repository
             var period = DateTime.Now.Year;
 
             return FindAll().Where(q => q.EmployeeId == id && q.Period == period).ToList();
+        }
+
+        public LeaveAllocation GetLeaveAllocationByEmployeeAndType(string id, int leaveTypeId)
+        {
+            var period = DateTime.Now.Year;
+            var result = FindAll().Where(q => q.EmployeeId == id && q.Period == period && q.LeaveTypeId == leaveTypeId).FirstOrDefault();
+
+            return result;
         }
 
         public bool isExists(int id)

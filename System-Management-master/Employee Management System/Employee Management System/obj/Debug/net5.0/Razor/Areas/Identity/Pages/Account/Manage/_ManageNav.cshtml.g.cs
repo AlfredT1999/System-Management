@@ -280,7 +280,7 @@ AddHtmlAttributeValue(" ", 1093, ManageNavPages.PersonalDataNavClass(ViewContext
         }
         #pragma warning restore 1998
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public SignInManager<Employee> SignInManager { get; private set; }
+        public SignInManager<ApplicationIdentity> SignInManager { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
