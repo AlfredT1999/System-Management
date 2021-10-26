@@ -57,17 +57,17 @@ namespace Employee_Management_System.Repository
             return (_db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.Employee).FirstOrDefault(q => q.Id == id));
         }
 
-        public ICollection<LeaveAllocation> GetLeaveAllocationByEmployee(string id)
+        public ICollection<LeaveAllocation> GetLeaveAllocationByEmployee(string employeeId)
         {
             var period = DateTime.Now.Year;
 
-            return FindAll().Where(q => q.EmployeeId == id && q.Period == period).ToList();
+            return FindAll().Where(q => q.EmployeeId == employeeId && q.Period == period).ToList();
         }
 
-        public LeaveAllocation GetLeaveAllocationByEmployeeAndType(string id, int leaveTypeId)
+        public LeaveAllocation GetLeaveAllocationByEmployeeAndType(string employeeId, int leaveTypeId)
         {
             var period = DateTime.Now.Year;
-            var result = FindAll().Where(q => q.EmployeeId == id && q.Period == period && q.LeaveTypeId == leaveTypeId).FirstOrDefault();
+            var result = FindAll().Where(q => q.EmployeeId == employeeId && q.Period == period && q.LeaveTypeId == leaveTypeId).FirstOrDefault();
 
             return result;
         }

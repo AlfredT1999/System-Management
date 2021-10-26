@@ -53,7 +53,60 @@ namespace Employee_Management_System.Controllers
         // GET: LeaveHistoryController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var leaveRequest = _leaveHistoryRepo.FindById(id);
+            var model = _mapper.Map<LeaveHistoryVM>(leaveRequest);
+
+            return View(model);
+        }
+
+        public ActionResult ApproveRequest(int id)
+        {
+            try
+            {
+                var user = _userManager.GetUserAsync(User).Result;
+                var leaveRequest = _leaveHistoryRepo.FindById(id);
+                var employeeId = leaveRequest.RequestingEmployeeId;
+                var leaveTypeId = leaveRequest.LeaveTypeId;
+                var allocation = _leaveAllocRepo.GetLeaveAllocationByEmployeeAndType(employeeId, leaveTypeId);
+                int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
+
+                allocation.NumberOfDays = allocation.NumberOfDays - daysRequested;
+
+                leaveRequest.Approved = true;
+                leaveRequest.ApprovedById = user.Id;
+                leaveRequest.DateActioned = DateTime.Now;
+
+                _leaveHistoryRepo.Update(leaveRequest);
+                _leaveAllocRepo.Update(allocation);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        public ActionResult RejectRequest(int id)
+        {
+            try
+            {
+                var user = _userManager.GetUserAsync(User).Result;
+                var leaveRequest = _leaveHistoryRepo.FindById(id);
+
+                leaveRequest.Approved = false;
+                leaveRequest.ApprovedById = user.Id;
+                leaveRequest.DateActioned = DateTime.Now;
+
+                _leaveHistoryRepo.Update(leaveRequest);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
         }
 
         // GET: LeaveHistoryController/Create

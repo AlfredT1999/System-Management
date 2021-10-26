@@ -9,11 +9,15 @@ namespace Employee_Management_System.Models
     {
         public int Id { get; set; }
         public EmployeeVM RequestingEmployee { get; set; }
+
+        [Display(Name = "Request Employee")]
         public string RequestingEmployeeId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public LeaveTypeVM LeaveType { get; set; }
         public int LeaveTypeId { get; set; }
+
+        [Display(Name = "Date Requested")]
         public DateTime DateRequested { get; set; }
         public DateTime? DateActioned { get; set; }
         public bool? Approved { get; set; }
