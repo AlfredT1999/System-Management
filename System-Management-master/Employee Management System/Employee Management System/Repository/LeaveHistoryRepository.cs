@@ -22,59 +22,61 @@ namespace Employee_Management_System.Repository
 
         /* The above code is called dependency injection. */
 
-        public bool Create(LeaveHistory entity)
+        public async Task<bool> Create(LeaveHistory entity)
         {
-            _db.LeaveHistories.Add(entity);
+            await _db.LeaveHistories.AddAsync(entity);
 
-            return Save();
+            return await Save();
         }
 
-        public bool Delete(LeaveHistory entity)
+        public async Task<bool> Delete(LeaveHistory entity)
         {
             _db.LeaveHistories.Remove(entity);
 
-            return Save();
+            return await Save();
         }
 
-        public ICollection<LeaveHistory> FindAll()
+        public async Task<ICollection<LeaveHistory>> FindAll()
         {
-            return (_db.LeaveHistories
+            return await _db.LeaveHistories
                 .Include(q => q.RequestingEmployee)// Get the data from the EmployeeVM
                 .Include(q => q.ApprovedBy)
                 .Include(q => q.LeaveType)
-                .ToList());
+                .ToListAsync();
         }
 
-        public LeaveHistory FindById(int id)
+        public async Task<LeaveHistory> FindById(int id)
         {
-            return (_db.LeaveHistories
+            return await (_db.LeaveHistories
                 .Include(q => q.RequestingEmployee)// Get the data from the EmployeeVM
                 .Include(q => q.ApprovedBy)
                 .Include(q => q.LeaveType)
-                .FirstOrDefault(q => q.Id == id));
+                .FirstOrDefaultAsync(q => q.Id == id));
         }
 
-        public ICollection<LeaveHistory> GetLeaveHistoriesByEmployee(string employeeId)
+        public async Task<ICollection<LeaveHistory>> GetLeaveHistoriesByEmployee(string employeeId)
         {
-            return FindAll().Where(q => q.RequestingEmployeeId == employeeId).ToList();
+            var query = await FindAll();
+
+            return query.Where(q => q.RequestingEmployeeId == employeeId).ToList();
         }
 
-        public bool isExists(int id)
+        public async Task<bool> isExists(int id)
         {
-            var exists = _db.LeaveHistories.Any(q => q.Id == id);// The q => is a lambda expression.
+            var exists = await _db.LeaveHistories.AnyAsync(q => q.Id == id);// The q => is a lambda expression.
             return exists;
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _db.SaveChanges() > 0;
+            return await _db.SaveChangesAsync() > 0;
         }
 
-        public bool Update(LeaveHistory entity)
+        public async Task<bool> Update(LeaveHistory entity)
         {
             _db.LeaveHistories.Update(entity);
 
-            return Save();
+            return await Save();
         }
     }
 }

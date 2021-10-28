@@ -1,5 +1,6 @@
 ﻿using Employee_Management_System.Contracts;
 using Employee_Management_System.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,53 +24,53 @@ namespace Employee_Management_System.Repository
 
         /* The above code is called dependency injection. */
 
-        public bool Create(LeaveType entity)// LeaveType entity, it's the info that comes from the user.
+        public async Task<bool> Create(LeaveType entity)// LeaveType entity, it's the info that comes from the user.
         {
-            _db.LeaveTypes.Add(entity);
+            await _db.LeaveTypes.AddAsync(entity);
 
-            return Save();
+            return await Save();
         }
 
-        public bool Delete(LeaveType entity)
+        public async Task<bool> Delete(LeaveType entity)
         {
             _db.LeaveTypes.Remove(entity);
 
-            return Save();
+            return await Save();
         }
 
-        public ICollection<LeaveType> FindAll()
+        public async Task<ICollection<LeaveType>> FindAll()
         {
-            return (_db.LeaveTypes.ToList());
+            return await _db.LeaveTypes.ToListAsync();
         }
 
-        public LeaveType FindById(int id)
+        public async Task<LeaveType> FindById(int id)
         {
-            return (_db.LeaveTypes.Find(id));
+            return await _db.LeaveTypes.FindAsync(id);
         }
 
-        public ICollection<LeaveType> GetEmployeesByLeaveType(int id)
+        public async Task<ICollection<LeaveType>> GetEmployeesByLeaveType(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool isExists(int id)
+        public async Task<bool> isExists(int id)
         {
-            var exists = _db.LeaveTypes.Any(q => q.Id == id);// The q => is a lambda expression.
+            var exists = await _db.LeaveTypes.AnyAsync(q => q.Id == id);// The q => is a lambda expression.
             return exists;
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
             // If something is created, deleted or updated, the value of _db.SaveChanges() will be major than 0.
             // If not return false.
-            return _db.SaveChanges() > 0;
+            return await _db.SaveChangesAsync() > 0;
         }
 
-        public bool Update(LeaveType entity)
+        public async Task<bool> Update(LeaveType entity)
         {
             _db.LeaveTypes.Update(entity);
 
-            return Save();
+            return await Save();
         }
     }
 }

@@ -10,23 +10,23 @@ namespace Employee_Management_System.Contracts
     public interface IRepositoryBase<T> where T : class
     {
         // Create:
-        bool Create(T entity);
+        Task<bool> Create(T entity);
 
         // Read:
-        ICollection<T> FindAll();
+        Task<ICollection<T>> FindAll();
 
         // Add another declaration that find if the id passed exists.
-        bool isExists(int id);
+        Task<bool> isExists(int id);
 
-        T FindById(int id);
+        Task<T> FindById(int id);
 
         // Update:
-        bool Update(T entity);
+        Task<bool> Update(T entity);
 
         // Delete:
-        bool Delete(T entity);
+        Task<bool> Delete(T entity);
 
         // Save:
-        bool Save();
+        Task<bool> Save();
     }
 }

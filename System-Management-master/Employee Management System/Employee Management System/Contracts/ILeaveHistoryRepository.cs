@@ -8,6 +8,6 @@ namespace Employee_Management_System.Contracts
 {
     public interface ILeaveHistoryRepository : IRepositoryBase<LeaveHistory>
     {
-        ICollection<LeaveHistory> GetLeaveHistoriesByEmployee(string employeeId);
+        Task<ICollection<LeaveHistory>> GetLeaveHistoriesByEmployee(string employeeId);
     }
 }

@@ -12,6 +12,6 @@ namespace Employee_Management_System.Contracts
     {
         // This is a specific interface for the class LeaveType, so here we can implement more operations apart from
         // the IRepositoryBase:
-        ICollection<LeaveType> GetEmployeesByLeaveType(int id);
+        Task<ICollection<LeaveType>> GetEmployeesByLeaveType(int id);
     }
 }
