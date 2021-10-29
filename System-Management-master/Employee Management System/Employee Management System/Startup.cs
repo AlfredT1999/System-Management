@@ -3,6 +3,7 @@ using Employee_Management_System.Contracts;
 using Employee_Management_System.Data;
 using Employee_Management_System.Mappings;
 using Employee_Management_System.Repository;
+using Employee_Management_System.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +42,10 @@ namespace Employee_Management_System
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            //Email Settings Section
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             // Add mapper:
             services.AddAutoMapper(typeof(Maps));// Maps is the name of the class which is inside the Mappings folder.

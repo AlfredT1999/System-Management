@@ -2,6 +2,7 @@
 using Employee_Management_System.Contracts;
 using Employee_Management_System.Data;
 using Employee_Management_System.Models;
+using Employee_Management_System.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +21,13 @@ namespace Employee_Management_System.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
         private readonly UserManager<Employee> _userManager;
         
-        public LeaveHistoryController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<Employee> userManager)
+        public LeaveHistoryController(IUnitOfWork unitOfWork, IEmailSender emailSender, IMapper mapper, UserManager<Employee> userManager)
         {
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -208,6 +211,10 @@ namespace Employee_Management_System.Controllers
                 var leaveRequest = _mapper.Map<LeaveHistory>(leaveHistory);
                 await _unitOfWork.LeaveRequests.Create(leaveRequest);
                 await _unitOfWork.Save();
+
+                // Send Email to supervisor and requesting user
+                await _emailSender.SendEmailAsync("admin@localhost.com", "New Leave Request",
+                    $"Please review this leave request. <a href='UrlOfApp/{leaveRequest.Id}'>Click Here</a>");
 
                 return RedirectToAction("MyLeave");
             }
