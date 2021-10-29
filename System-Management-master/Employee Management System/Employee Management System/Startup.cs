@@ -40,6 +40,8 @@ namespace Employee_Management_System
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
 
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             // Add mapper:
             services.AddAutoMapper(typeof(Maps));// Maps is the name of the class which is inside the Mappings folder.
 
