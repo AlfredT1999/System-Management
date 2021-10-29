@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,9 @@ namespace Employee_Management_System.Controllers
             var mappedEmployees = _mapper.Map<EmployeeVM>(employee);
             var period = DateTime.Now.Year;
             var allocations = await _unitOfWork.LeaveAllocations.Find(
-                q => q.EmployeeId == employee.Id && q.Period == period);
+                q => q.EmployeeId == employee.Id && q.Period == period,
+                includes: q => q.Include(x => x.LeaveType)
+                );
 
             var mappedAllocations = _mapper.Map<List<LeaveAllocationVM>>(allocations);
             var model = new ViewAllocationVM
@@ -125,7 +128,8 @@ namespace Employee_Management_System.Controllers
         // GET: LeaveAllocationController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var leaveAllocation = await _unitOfWork.LeaveAllocations.Find(q => q.Id == id);
+            var leaveAllocation = await _unitOfWork.LeaveAllocations.Find(q => q.Id == id,
+                includes: q => q.Include(x => x.Employee).Include(x => x.LeaveType));
             var model = _mapper.Map<EditLeaveAllocationVM>(leaveAllocation);
 
             return View(model);

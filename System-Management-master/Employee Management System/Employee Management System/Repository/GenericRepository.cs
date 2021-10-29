@@ -1,6 +1,7 @@
 ﻿using Employee_Management_System.Contracts;
 using Employee_Management_System.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,23 +32,20 @@ namespace Employee_Management_System.Repository
             _db.Remove(entity);
         }
 
-        public async Task<T> Find(Expression<Func<T, bool>> expression, List<string> includes = null)
+        public async Task<T> Find(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null)
         {
             IQueryable<T> query = _db;
 
             if(includes != null)
             {
-                foreach (var table in includes)
-                {
-                    query = query.Include(table);
-                }
+                
             }
 
             return await query.FirstOrDefaultAsync(expression);
         }
 
         public async Task<IList<T>> FindAll(Expression<Func<T, bool>> expression = null, 
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null)
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null)
         {
             IQueryable<T> query = _db;
 
@@ -58,10 +56,7 @@ namespace Employee_Management_System.Repository
 
             if (includes != null)
             {
-                foreach (var table in includes)
-                {
-                    query = query.Include(table);
-                }
+               
             }
 
             if(orderBy != null)

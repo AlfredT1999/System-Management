@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,8 @@ namespace Employee_Management_System.Controllers
         public async Task<ActionResult> Index()
         {
             var leaveHistories = await _unitOfWork.LeaveRequests.FindAll(
-                includes: new List<string> { "RequestingEmployee", "LeaveType"});
+                includes: q => q.Include(x => x.RequestingEmployee).Include(x => x.LeaveType));
+
             var leaveHistoriesModel = _mapper.Map<List<LeaveHistoryVM>>(leaveHistories);
             var model = new AdminLeaveHistoryViewVM
             {
@@ -51,7 +53,8 @@ namespace Employee_Management_System.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var leaveRequest = await _unitOfWork.LeaveRequests.Find(q => q.Id == id,
-                includes: new List<string> { "ApprovedBy", "RequestingEmployee", "LeaveType" });
+                includes: q => q.Include(x => x.ApprovedBy).Include(x => x.RequestingEmployee).Include(x => x.LeaveType));
+
             var model = _mapper.Map<LeaveHistoryVM>(leaveRequest);
 
             return View(model);
@@ -117,7 +120,8 @@ namespace Employee_Management_System.Controllers
             var employee = await _userManager.GetUserAsync(User);
             var employeeId = employee.Id;
             var employeeAllocations = await _unitOfWork.LeaveAllocations.FindAll(q => q.EmployeeId == employeeId,
-                includes: new List<string> { "LeaveType"});
+                includes: q => q.Include(x => x.LeaveType));
+
             var employeeRequests = await _unitOfWork.LeaveRequests.FindAll(q => q.RequestingEmployeeId == employeeId);
             var employeeAllocationModel = _mapper.Map<List<LeaveAllocationVM>>(employeeAllocations);
             var employeeRequestsModel = _mapper.Map<List<LeaveHistoryVM>>(employeeRequests);
