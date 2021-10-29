@@ -131,22 +131,6 @@ namespace Employee_Management_System.Controllers
             }
         }
 
-        // GET: LeaveTypesController/Delete/5
-        public async Task<ActionResult> Delete(int id)
-        {
-            var leavetype = await _unitOfWork.LeaveTypes.Find(expression: q => q.Id == id);
-
-            if (leavetype == null)
-            {
-                return NotFound();
-            }
-
-            _unitOfWork.LeaveTypes.Delete(leavetype);
-            await _unitOfWork.Save();
-
-            return RedirectToAction(nameof(Index));
-        }
-
         // POST: LeaveTypesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
