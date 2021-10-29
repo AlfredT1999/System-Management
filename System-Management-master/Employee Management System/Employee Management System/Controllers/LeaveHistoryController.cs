@@ -36,7 +36,7 @@ namespace Employee_Management_System.Controllers
         // GET: LeaveHistoryController
         public async Task<ActionResult> Index()
         {
-            var leaveHistories = _leaveHistoryRepo.FindAll();
+            var leaveHistories = await _leaveHistoryRepo.FindAll();
             var leaveHistoriesModel = _mapper.Map<List<LeaveHistoryVM>>(leaveHistories);
             var model = new AdminLeaveHistoryViewVM
             {
